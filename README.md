@@ -2,7 +2,7 @@
 
 # ⚡ ETH-X
 
-### The Next Generation of Decentralized Finance Infrastructure
+### A next-generation Ethereum network designed for post-quantum security
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/Version-Beta-orange)
@@ -26,7 +26,9 @@ ETH-X is an open-source Web3 ecosystem focused on delivering a modern decentrali
 
 Our mission is to simplify blockchain technology while providing secure, scalable, and beautiful decentralized applications powered by Ethereum.
 
-The project combines modern frontend technologies with blockchain infrastructure to create a seamless Web3 experience.
+ETH-X is developing an independent Ethereum hard fork designed to address quantum threats to accounts, validator consensus, data availability, and cross-chain infrastructure. The network roadmap also targets lower transaction costs under load.
+
+The current repository contains the Web3 application and experimental network infrastructure. The [quantum threat model and release gates](infrastructure/README.md#quantum-threat-model-and-release-gates) define the protocol changes and verification required before public activation.
 
 ---
 
