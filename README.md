@@ -79,7 +79,7 @@ ETH-X
 ## Clone Repository
 
 ```bash
-git clone https://github.com/beautifulminds/ETH-X.git
+git clone https://github.com/beautifullminds/ETH-X.git
 
 cd ETH-X
 ```
@@ -125,6 +125,8 @@ npm run build
 # 📖 Documentation
 
 Project documentation is located inside the **docs/** directory.
+
+See the [network infrastructure guide](infrastructure/README.md) for the Ethereum state rehearsal, proof-of-stake devnet, fee experiments, and post-quantum design.
 
 Future documentation will include:
 
