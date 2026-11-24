@@ -60,11 +60,22 @@ Both scenarios apply the same EIP-1559 integer adjustment and 2x elasticity. Tar
 3. Assign a distinct public chain ID and network identity, isolate execution and consensus peers, and test replay protection across the split. Reject unprotected legacy transactions after activation. Test chain-bound application signatures and audit inherited contracts, bridges, stablecoins, and oracles. Copied balances and contract state require independent backing and operator support.
 4. Operate independent validators, bootnodes, private Engine API links, rate-limited public RPC, and an explorer. Exercise partition recovery, finality, syncing from checkpoint, state growth, upgrade rehearsals, and incident response before launch. Register the wallet configuration after public chain identity is finalized.
 
-## Post-quantum security track
+## Quantum threat model and release gates
 
-Use FIPS 204 ML-DSA as the candidate for a versioned smart-account authorization verifier, deployed in an isolated devnet after independent review. Post-quantum cryptography runs on ordinary computers. Use a reviewed library with NIST test vectors. Prototype hybrid authorization requiring both classical and ML-DSA signatures over a canonical message that binds chain ID, account, nonce, expiry, call data and value. Benchmark verifier CPU, gas and signature bandwidth, then evaluate a metered native precompile with matching results across clients. Specify enrollment, rotation and recovery with equivalent security assumptions.
+ETH-X targets an Ethereum-derived network that can continue operating when widely used elliptic-curve cryptography is unsafe. Post-quantum cryptography runs on ordinary computers. Security claims apply to explicitly tested threats and protocol components.
 
-Treat validator BLS signatures, KZG commitments, bridges, upgrade/admin keys and legacy accounts as separate migration tracks. Keep the existing security claims scoped to the components actually migrated and tested.
+| Surface | Quantum exposure | Release requirement |
+| --- | --- | --- |
+| EOAs and contract authorization | A sufficiently capable quantum computer could recover signing keys from exposed elliptic-curve public keys. ECDSA-only permits, multisigs, and recovery paths inherit this exposure. | Prototype ML-DSA hybrid accounts. Bind signatures to the chain ID, authorization version, account, nonce, expiry and full call intent. Test that every spending and recovery path requires post-quantum authorization after migration. |
+| Inherited mainnet state | Existing balances and contract permissions may depend on legacy keys. After a key is compromised, an ECDSA signature alone cannot distinguish the original owner from an attacker. | Specify opt-in enrollment before activation, migration of immutable contracts and unregistered accounts, and governance for unsupported assets. Test eligibility and claims against the fixed fork checkpoint. Publish the handling of unmigrated balances before activation. |
+| Validator and sync security | BLS validator keys and signatures protect attestations, finality and light-client updates. | Evaluate PQ signatures and aggregation or proof strategies separately from wallet signatures. Demonstrate finality, slashing, validator rotation, checkpoint sync and light-client verification across independent clients under a published bandwidth budget. |
+| Blob availability and proofs | KZG commitments and some proof systems rely on quantum-vulnerable assumptions. | Inventory commitments and proof systems used by clients, rollups and bridges. Evaluate hash-based alternatives and benchmark proof size, availability sampling, verification and storage before replacing or enabling affected paths. |
+| Bridges, oracles, administration and infrastructure | External signer sets, upgrade keys, release signing and secure transport may depend on classical cryptography. | Inventory trust dependencies and establish equivalent protection or keep the integration disabled. Verify key rotation, downgrade resistance and artifact verification. |
+| Hashes and addresses | Quantum search changes security margins. Truncated address spaces and full-length commitments have different requirements. | Review preimage, second-preimage and collision assumptions for each use. Specify how upgraded account identifiers and existing EVM addresses coexist and test address resolution across wallets and clients. |
+
+Start with a reviewed FIPS 204 ML-DSA implementation and standardized test vectors. Exercise canonical encoding, incorrect and missing signatures, replay across chain IDs and domains, key rotation, and malformed-input resource limits. Benchmark signature bytes, verification time, block propagation, node resource use and fee impact against the existing devnet. Require identical validation across clients, independent review, and a published migration and incident-response plan before scheduling a public activation.
+
+The current devnet uses upstream Ethereum cryptography. The authorization verifier, new validator signatures and commitment changes are research and implementation work.
 
 ## References
 
