@@ -1,0 +1,9 @@
+participants:
+  - el_type: geth
+    cl_type: lighthouse
+  - el_type: nethermind
+    cl_type: teku
+network_params:
+  network: "kurtosis"
+  network_id: "54379812"
+  seconds_per_slot: 12
